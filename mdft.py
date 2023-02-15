@@ -135,9 +135,9 @@ def ft(img):
   fqLens = [1, 2, 4, 8]
 
   ls = np.zeros(32, dtype=complex)
-  for nd in range(0, int(nodes[0] / 2)):
-    ls[idx(0, 0, 2 * nd)] = img[nd]
-    ls[idx(0, 0, 2 * nd + 1)] = img[4 + nd]
+  for nd in range(0, int(nodes[0])):
+    index = 4 * (nd % 2) + 2 * (nd // 2 % 2) + (nd // 4)
+    ls[idx(0, 0, nd)] = img[int(index)]
   for lvl in range(1, lvls):
     node = nodes[lvl]
     fqLen = fqLens[lvl]
@@ -176,57 +176,49 @@ def invF8(frequencies, size):
 def invF8C(frequencies, size):
   k = np.linspace(0, size - 1, size)
   fun = []
-
   for n in k:
-    ni = frequencies[:] * e**(-2j * pi * k * n / size)
-    # fr = frequencies[:].real * np.cos(2. * np.pi * k * n / size)
-    # fi = frequencies[:].imag * np.sin(2. * np.pi * k * n / size)
+    # ni = frequencies[:] * e**(-2j * pi * k * n / size)
+    # fun.append(np.sum(ni) / float(size))
+    
+    fr = frequencies[:].real * np.cos(2. * np.pi * k * n / size)
+    fi = frequencies[:].imag * np.sin(2. * np.pi * k * n / size)
     # fr = frequencies[0] * np.cos(2. * np.pi * k * n / size)
     # fi = frequencies[1] * np.sin(2. * np.pi * k * n / size)
-    # fun.append(np.sum(fr - fi) / float(size))
-    fun.append(np.sum(ni) / float(size))
-    fun = [cRound(x) for x in fun]
+    fun.append(np.sum(fr - fi) / float(size))
+    # fun = [cRound(x) for x in fun]
   return fun
-
-def FFT(P):
-    """
-    A recursive implementation of the
-    1D Cooley-Tukey FFT, using 
-    Reducible's YouTube video implementation as a reference and
-    in Introduction to Algorithms, Cormen et al (page 909).
-    """
-    # P - [po, p1,... pn-1] coefficient representation
-    n = len(P) # n is a power of 2
-    if n == 1:
-        return P 
-    y_even, y_odd = FFT(P[::2]), FFT(P[1::2])
-    # print("vals: ", y_even,  y_odd)
-    y = [0] * n
-    for k in range(int(n/2)):
-        w_k = np.exp(2j * np.pi * k/n) 
-        y[k] = y_even[k] + w_k * y_odd[k]
-        print(y_even[k], " + ", cRound(w_k), " * ", y_odd[k],\
-          " = ", y[k])
-        y[k + int(n/2)] = y_even[k] - w_k * y_odd[k]
-    return y    
+   
 
 ls = [0, 1, 2, 3, 4, 5, 6, 7]
 
 # nft = four(ls, 8)
-nft = np.fft.fft(ls)
 # nft = FFT(ls)
 # ift = invF8(nft, 8)
-nft = [cRound(x) for x in nft]
-# nft = [[round(x, 2) for x in nft[0]], [round(x, 2) for x in nft[1]]]
-# ift = [round(x, 2) for x in ift]
-print("nft: ", nft)
+
+# nft = np.fft.fft(ls)
+# ift = np.fft.ifft(nft)
+# nft = [cRound(x) for x in nft]
+# ift = [cRound(x) for x in ift]
+# print("nft: ", nft)
 # print("ift: ", ift)
 
-fls = ft(ls)
-ifft = invF8C(fls[24:32], 8)
-fls = [cRound(x) for x in fls]
-ifft = [cRound(x) for x in ifft]
+nft = four(ls, 8)
+nift = invF8(nft, 8)
 
-print("fft", fls[24:32])
+nft = [round(x, 2) for x in nft[0]], [round(x, 2) for x in nft[1]]
+nift = [round(x, 2) for x in nift]
 
-print("ifft: ", ifft)
+print("fft", nft)
+print("ift", nift)
+
+fastft = ft(ls)
+fastift = invF8C(fastft[24:32], 8)
+
+fastft = [cRound(x) for x in fastft]
+fastift = [cRound(x) for x in fastift]
+print("fft", fastft[24:32])
+print("ifft: ", fastift)
+
+
+# print("fft", fls[24:32])
+# print("ifft: ", ifft)

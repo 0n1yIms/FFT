@@ -303,6 +303,61 @@ $ [E_{1} + e_{5}.F_{1}] = G_{F=5} $
 $ [E_{2} + e_{6}.F_{2}] = G_{F=6} $
 $ [E_{3} + e_{7}.F_{3}] = G_{F=7} $
 
+
+##### levels
+Lets take an example with N=2
+&nbsp;&nbsp;lvl0: nodes(2), fq(1)
+&nbsp;&nbsp;lvl1: nodes(1), fq(2)
+
+And now lets take an example with N=4
+&nbsp;&nbsp;lvl0: nodes(4), fq(1)
+&nbsp;&nbsp;lvl1: nodes(2), fq(2)
+&nbsp;&nbsp;lvl2: nodes(1), fq(4)
+
+And with N=8
+&nbsp;&nbsp;lvl0: nodes(8), fq(1)
+&nbsp;&nbsp;lvl1: nodes(4), fq(2)
+&nbsp;&nbsp;lvl2: nodes(2), fq(4)
+&nbsp;&nbsp;lvl3: nodes(1), fq(8)
+
+And with N=16
+&nbsp;&nbsp;lvl0: nodes(16), fq(1)
+&nbsp;&nbsp;lvl1: nodes(8), fq(2)
+&nbsp;&nbsp;lvl2: nodes(4), fq(4)
+&nbsp;&nbsp;lvl3: nodes(2), fq(8)
+&nbsp;&nbsp;lvl4: nodes(1), fq(16)
+
+As we can see, it is exponential
+N=2, lvls = 1 + 1
+N=4, lvls = 2 + 1
+N=8, lvls = 3 + 1
+N=16 lvls = 4 + 1
+$ lvls = log_{2}(N) + 1 $
+
+##### Container
+we will store the levels on ___ls___
+$ ls = [N.lvls] $
+with N equals to 8 ls = [32]
+
+> fun ft(img)
+&nbsp;&nbsp;N = len(img)
+&nbsp;&nbsp;lvls = $ log_{2}(N) + 1 $
+&nbsp;&nbsp;fqLens = [2^n for n in range(0,N)]
+&nbsp;&nbsp;nodes  = inverse(fqLens)
+&nbsp;&nbsp;ls = [N * lvls]
+&nbsp;&nbsp;
+&nbsp;&nbsp;for nd in (0, nodes[0]):
+&nbsp;&nbsp;&nbsp;index = 4 * (nd % 2) + 2 * (nd // 2 % 2) + (nd // 4)
+&nbsp;&nbsp;&nbsp;ls[0, 0, nd] = img[nd]
+&nbsp;&nbsp;
+&nbsp;&nbsp;for lvl in (1, lvls):
+&nbsp;&nbsp;&nbsp;node = nodes[lvl]
+&nbsp;&nbsp;&nbsp;fqLen = fqLens[lvl]
+&nbsp;&nbsp;&nbsp;for fq in (0, fqLen):
+&nbsp;&nbsp;&nbsp;&nbsp;for nd in (0, nodes):
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$ ls[lvl, fq, nd] = ls[lvl - 1,fq \% fqLens[lvl-1], 2.nd] + ls[lvl - 1, fq \% fqLens[lvl-1], 2.nd+1].e^{\frac{-2i\pi.fq}{fqLen}} $
+
+
 lvls = 3  (0, 1, 2, 3)  // _lvl0 is the img_
 nodes   = (8, 4, 2, 1)
 fqLens  = (1, 2, 4, 8)  // _Frequencies_
@@ -356,17 +411,6 @@ fq3  Size = 8
 
 lvl * 8 + f*fqLen[lvl] nd
 
-> fun ft(img)
-ls[8 + 4.2 + 4.2 + 8.1] = 24
-for nd in (0, nodes[0] / 2):
-&nbsp;ls[0, 0, 2.nd] = img[nd]
-&nbsp;ls[0, 0, 2.nd + 1] = img[4 + nd]
-for lvl in (1, lvls):
-&nbsp;node = nodes[lvl]
-&nbsp;fqLen = fqLens[lvl]
-&nbsp;for fq in (0, fqLen):
-&nbsp;&nbsp;for nd in (0, nodes):
-&nbsp;&nbsp;&nbsp;$ ls[lvl, fq, nd] = ls[lvl - 1,fq \% fqLens[lvl-1], 2.nd] + ls[lvl - 1, fq \% fqLens[lvl-1], 2.nd+1].e^{\frac{-2i\pi.fq}{fqLen}} $
 
 
 ---
@@ -454,6 +498,17 @@ $ [-4 - 4i + e.(-4 - 4i)] = G_{F=7}$
 $ [-4 - 4i + e(0.7 +0.7i)(-4 -4i)] = G_{F=7}$
 $ [-4 - 4i - 5.6i] = G_{F=7}$
 $ [-4 - 9.6i] = G_{F=7}$
+
+__Order:__
+$ [x_{0}, x_{1}, x_{2}, x_{3}, x_{4}, x_{5}, x_{6}, x_{7}] $
+
+$ [x_{0}, x_{2}, x_{4}, x_{6}][x_{1}, x_{3}, x_{5}, x_{7}] $
+
+$ [x_{0}, x_{4}][x_{2}, x_{6}][x_{1}, x_{5}][x_{3}, x_{7}] $
+
+
+$ 4.(x \% 2) + 2(\frac{x}{2} \% 2) + \frac{x}{4}$
+
 
 
 &nbsp;
