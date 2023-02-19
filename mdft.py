@@ -5,6 +5,8 @@ from numpy import cos as cos
 from numpy import sin as sin
 import time
 import math
+from math import log
+from math import pi
 
 pi = 3.1415926535897932384626433832795
 e = 2.71828182845904523536028747135
@@ -140,7 +142,7 @@ def ft(img):
   for nd in range(0, int(nodes[0])):
     index = 0
     for i in range(m):
-      index += 2**i * ((x % 2**(m-i)) // 2**(m-(i+1)))
+      index += 2**i * ((nd % 2**(m-i)) // 2**(m-(i+1)))
     ls[idx(0, 0, nd)] = img[int(index)]
     
   for lvl in range(1, lvls):
@@ -164,6 +166,34 @@ def ft(img):
     # print("lvl", lvl, rls)
     # print("lvl", lvl, ls[idx(lvl - 1, 0, 0):idx(lvl - 1, 0, 0) + 8])
   return ls
+
+def idxFt(lvl, fq, node):
+  return lvl * 8 + fq * nodes[lvl] + node
+
+def fftAlg(img):
+      n = len(img)  # 8
+      m = int(log(n, 2)) # 3
+      nodes = [2**i for i in range(m, -1, -1) ] # [8, 4, 2, 1]
+      fqLens = [2**i for i in range(0, m + 1)] # [1, 2, 4, 8]
+
+      ls = np.zeros(n * (m + 1), dtype=complex)
+      for x in range(0, nodes[0]):
+        index = 0
+        for i in range(m):
+          index += 2**i * ((x % 2**(m-i)) // 2**(m-(i+1)))
+        ls[idx(0, 0, x)] = img[int(index)]
+      
+      for lvl in range(1, lvls):
+        node = nodes[lvl]
+        fqLen = fqLens[lvl]
+        for fq in range(0, fqLen):
+          for nd in range(0, node):
+            ls[idx(lvl, fq, nd)] = \
+              ls[idx(lvl - 1,fq % fqLens[lvl - 1], 2 * nd)] + \
+              ls[idx(lvl - 1, fq % fqLens[lvl - 1], 2 * nd + 1)] \
+              * e**(-2j*pi*fq/fqLen)
+  
+      return ls[24:32]
 
 
 def invF8(frequencies, size):
@@ -189,12 +219,24 @@ def invF8C(frequencies, size):
     fi = frequencies[:].imag * np.sin(2. * np.pi * k * n / size)
     # fr = frequencies[0] * np.cos(2. * np.pi * k * n / size)
     # fi = frequencies[1] * np.sin(2. * np.pi * k * n / size)
-    fun.append(np.sum(fr - fi) / float(size))
+    fun.append(np.sum(fr - fi))
+    # fun.append(np.sum(fr - fi) / float(size))
     # fun = [cRound(x) for x in fun]
   return fun
    
 
 ls = [0, 1, 2, 3, 4, 5, 6, 7]
+fftLs = fftAlg(ls)
+ifftLs = np.fft.ifft(fftLs)
+
+# ifftLs = fftAlg(fftLs)
+# ifftLs = invF8C(fftLs, 8)
+
+ifftLs = [cRound(x) for x in ifftLs]
+
+ifftLs = [x / 8 for x in ifftLs]
+
+print(fftLs)
 
 # nft = four(ls, 8)
 # nft = FFT(ls)

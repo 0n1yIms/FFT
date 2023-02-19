@@ -528,8 +528,21 @@ ls = [8.4][32]
       for x in [0, nodes[0]):
         index = 0
         for i in range(m):
-          index += 2^i .((nd % 2^(m-i)) // 2^(m-(i+1)))
-        ls[idx(0, 0, nd)] = img[int(index)]
+          index += 2^i .((x % 2^(m-i)) // 2^(m-(i+1)))
+        ls[idx(0, 0, x)] = img[int(index)]
+      
+      for lvl in range(1, lvls):
+      node = nodes[lvl]
+      fqLen = fqLens[lvl]
+      for fq in range(0, fqLen):
+        for nd in range(0, node):
+        ls[idx(lvl, fq, nd)] = 
+          ls[idx(lvl - 1,fq % fqLens[lvl - 1], 2 * nd)] + 
+          ls[idx(lvl - 1, fq % fqLens[lvl - 1], 2 * nd + 1)] 
+            * e^(-2i.pi.fq/fqLen)
+  
+      return ls
+
 
 
 > fun ft(img)
