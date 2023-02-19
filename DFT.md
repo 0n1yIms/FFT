@@ -224,42 +224,34 @@ N = 8
 
 
 ### FFT
-$ \sum_{n = 1}^{N} x_{n}.e^{\frac{-2.i.\pi.k.n}{N}} $
+> $ \sum_{n = 1}^{N} x_{n}.e^{\frac{-2.i.\pi.k.n}{N}} $
 
-$ \sum_{n = 1}^{N/2} x_{2n}.e^{\frac{-2.i.\pi.k.2n}{N}} + \sum_{n = 1}^{N/2} x_{2n+1}.e^{\frac{-2.i.\pi.k.(2n + 1)}{N}} $
+> $ \sum_{n = 1}^{N/2} x_{2n}.e^{\frac{-2.i.\pi.k.2n}{N}} + \sum_{n = 1}^{N/2} x_{2n+1}.e^{\frac{-2.i.\pi.k.(2n + 1)}{N}} $
 
-$ \sum_{n = 1}^{N/2} x_{2n}.e^{\frac{-2.i.\pi.k.n}{N/2}} + e^{\frac{-2.i.\pi.k}{N}}.\sum_{n = 1}^{N/2} x_{2n+1}.e^{\frac{-2.i.\pi.k.2n}{N}} $
+> $ \sum_{n = 1}^{N/2} x_{2n}.e^{\frac{-2.i.\pi.k.n}{N/2}} + e^{\frac{-2.i.\pi.k}{N}}.\sum_{n = 1}^{N/2} x_{2n+1}.e^{\frac{-2.i.\pi.k.2n}{N}} $
 
-$ \sum_{n = 1}^{N/2} x_{2n}.e^{\frac{-2.i.\pi.k.n}{N/2}} + e^{\frac{-2.i.\pi.k}{N}}.\sum_{n = 1}^{N/2} x_{2n+1}.e^{\frac{-2.i.\pi.k.n}{N/2}} $
+> $ \sum_{n = 1}^{N/2} x_{2n}.e^{\frac{-2.i.\pi.k.n}{N/2}} + e^{\frac{-2.i.\pi.k}{N}}.\sum_{n = 1}^{N/2} x_{2n+1}.e^{\frac{-2.i.\pi.k.n}{N/2}} $
 
-$ \sum_{n = 1}^{N/4} x_{4n}.e^{\frac{-2.i.\pi.k.2n}{N/2}} + \sum_{n = 1}^{N/4} x_{4n + 2}.e^{\frac{-2.i.\pi.k.(2n + 1)}{N/2}} + e^{\frac{-2.i.\pi.k}{N}}.\left[\sum_{n = 1}^{N/4} x_{2(2n)+1}.e^{\frac{-2.i.\pi.k.2n}{N/2}} + \sum_{n = 1}^{N/4} x_{2(2n + 1) + 1}.e^{\frac{-2.i.\pi.k.(2n + 1)}{N/2}}\right]$
+> $ \sum_{n = 1}^{N/4} x_{4n}.e^{\frac{-2.i.\pi.k.2n}{N/2}} + \sum_{n = 1}^{N/4} x_{4n + 2}.e^{\frac{-2.i.\pi.k.(2n + 1)}{N/2}} + e^{\frac{-2.i.\pi.k}{N}}.\left[\sum_{n = 1}^{N/4} x_{2(2n)+1}.e^{\frac{-2.i.\pi.k.2n}{N/2}} + \sum_{n = 1}^{N/4} x_{2(2n + 1) + 1}.e^{\frac{-2.i.\pi.k.(2n + 1)}{N/2}}\right]$
 
 
-$ \sum_{n = 1}^{N/4} x_{4n}.e^{\frac{-2.i.\pi.k.n}{N/4}} + e^{\frac{-2.i.\pi.k}{N/2}}.\sum_{n = 1}^{N/4} x_{4n + 2}.e^{\frac{-2.i.\pi.k.2n}{N/2}} + e^{\frac{-2.i.\pi.k}{N}}.\left[\sum_{n = 1}^{N/4} x_{2(2n)+1}.e^{\frac{-2.i.\pi.k.2n}{N/2}} + \sum_{n = 1}^{N/4} x_{2(2n + 1) + 1}.e^{\frac{-2.i.\pi.k.(2n + 1)}{N/2}}\right]$
+> $ \sum_{n = 1}^{N/4} x_{4n}.e^{\frac{-2.i.\pi.k.n}{N/4}} + e^{\frac{-2.i.\pi.k}{N/2}}.\sum_{n = 1}^{N/4} x_{4n + 2}.e^{\frac{-2.i.\pi.k.2n}{N/2}} + e^{\frac{-2.i.\pi.k}{N}}.\left[\sum_{n = 1}^{N/4} x_{2(2n)+1}.e^{\frac{-2.i.\pi.k.2n}{N/2}} + \sum_{n = 1}^{N/4} x_{2(2n + 1) + 1}.e^{\frac{-2.i.\pi.k.(2n + 1)}{N/2}}\right]$
 
-$ \sum_{n = 1}^{N/4} x_{4n}.e^{\frac{-2.i.\pi.k.n}{N/4}} + e^{\frac{-2.i.\pi.k}{N/2}}.\sum_{n = 1}^{N/4} x_{4n + 2}.e^{\frac{-2.i.\pi.k.n}{N/4}} + e^{\frac{-2.i.\pi.k}{N}}.\left[\sum_{n = 1}^{N/4} x_{4n+1}.e^{\frac{-2.i.\pi.k.n}{N/4}} + e^{\frac{-2.i.\pi.k}{N/2}}.\sum_{n = 1}^{N/4} x_{4n + 3}.e^{\frac{-2.i.\pi.k.2n}{N/2}}\right]$
+> $ \sum_{n = 1}^{N/4} x_{4n}.e^{\frac{-2.i.\pi.k.n}{N/4}} + e^{\frac{-2.i.\pi.k}{N/2}}.\sum_{n = 1}^{N/4} x_{4n + 2}.e^{\frac{-2.i.\pi.k.n}{N/4}} + e^{\frac{-2.i.\pi.k}{N}}.\left[\sum_{n = 1}^{N/4} x_{4n+1}.e^{\frac{-2.i.\pi.k.n}{N/4}} + e^{\frac{-2.i.\pi.k}{N/2}}.\sum_{n = 1}^{N/4} x_{4n + 3}.e^{\frac{-2.i.\pi.k.2n}{N/2}}\right]$
 
-$ \sum_{n = 1}^{N/4} x_{4n}.e^{\frac{-2.i.\pi.k.n}{N/4}} + e^{\frac{-2.i.\pi.k}{N/2}}.\sum_{n = 1}^{N/4} x_{4n + 2}.e^{\frac{-2.i.\pi.k.n}{N/4}} + e^{\frac{-2.i.\pi.k}{N}}.\left[\sum_{n = 1}^{N/4} x_{4n+1}.e^{\frac{-2.i.\pi.k.n}{N/4}} + e^{\frac{-2.i.\pi.k}{N/2}}.\sum_{n = 1}^{N/4} x_{4n + 3}.e^{\frac{-2.i.\pi.k.n}{N/4}}\right]$
+> $ \sum_{n = 1}^{N/4} x_{4n}.e^{\frac{-2.i.\pi.k.n}{N/4}} + e^{\frac{-2.i.\pi.k}{N/2}}.\sum_{n = 1}^{N/4} x_{4n + 2}.e^{\frac{-2.i.\pi.k.n}{N/4}} + e^{\frac{-2.i.\pi.k}{N}}.\left[\sum_{n = 1}^{N/4} x_{4n+1}.e^{\frac{-2.i.\pi.k.n}{N/4}} + e^{\frac{-2.i.\pi.k}{N/2}}.\sum_{n = 1}^{N/4} x_{4n + 3}.e^{\frac{-2.i.\pi.k.n}{N/4}}\right]$
 
-$ \sum_{n = 1}^{N/8} x_{8n}.e^{\frac{-2.i.\pi.k.n}{N/8}} + $
-
+> $ \sum_{n = 1}^{N/8} x_{8n}.e^{\frac{-2.i.\pi.k.n}{N/8}} + $
 $ e^{\frac{-2.i.\pi.k}{N/4}}.\sum_{n = 1}^{N/8} x_{8n + 4}.e^{\frac{-2.i.\pi.k.n}{N/8}} $ 
-
 $+ e^{\frac{-2.i.\pi.k}{N/2}}\left[\sum_{n = 1}^{N/8} x_{8 + 2}.e^{\frac{-2.i.\pi.k.n}{N/8}} + e^{\frac{-2.i.\pi.k}{N/4}}.\sum_{n = 1}^{N/8} x_{8n + 6}.e^{\frac{-2.i.\pi.k.n}{N/8}}\right] $
-
 $ + e^{\frac{-2.i.\pi.k}{N}}.[ \sum_{n = 1}^{N/8} x_{8n+1}.e^{\frac{-2.i.\pi.k.n}{N/8}} + e^{\frac{-2.i.\pi.k}{N/4}}.\sum_{n = 1}^{N/8} x_{8n+5}.e^{\frac{-2.i.\pi.k.n}{N/8}} + $
-
 $ e^{\frac{-2.i.\pi.k}{N/2}}.(\sum_{n = 1}^{N/8} x_{8n + 3}.e^{\frac{-2.i.\pi.k.n}{N/8}} + e^{\frac{-2.i.\pi.k}{N/4}}.\sum_{n = 1}^{N/8} x_{8n + 7}.e^{\frac{-2.i.\pi.k.n}{N/8}})]$
 
 __N = 8__
-$ x_{0}.e^{\frac{-2.i.\pi.k.0}{N/8}} + $ 
-
+> $ x_{0}.e^{\frac{-2.i.\pi.k.0}{N/8}} + $ 
 $ e^{\frac{-2.i.\pi.k}{N/4}}(x_{4}.e^{\frac{-2.i.\pi.k.0}{N/8}}) $ 
-
 $+ e^{\frac{-2.i.\pi.k}{N/2}}\left[x_{2}.e^{\frac{-2.i.\pi.k.0}{N/8}} + e^{\frac{-2.i.\pi.k}{N/4}}(x_{6}.e^{\frac{-2.i.\pi.k.0}{N/8}})\right] $
-
 $ + e^{\frac{-2.i.\pi.k}{N}}.[x_{1}.e^{\frac{-2.i.\pi.k.0}{N/8}} + e^{\frac{-2.i.\pi.k}{N/4}}.(x_{5}.e^{\frac{-2.i.\pi.k.0}{N/8}}) + $
-
 $ e^{\frac{-2.i.\pi.k}{N/2}}.(x_{3}.e^{\frac{-2.i.\pi.k.0}{N/8}} + e^{\frac{-2.i.\pi.k}{N/4}}(x_{7}.e^{\frac{-2.i.\pi.k.0}{N/8}}))]$
 
 _Simplify_
@@ -278,22 +270,24 @@ $ E + e^{\frac{-2.i.\pi.k}{8}}F$
 $ [E + e^{\frac{-2.i.\pi.k}{8}}F] = G_{k=0, 1, 2, 3, 4, 5, 6, 7} $
 
 ___pseudo code:___
-
+_lvl0:_
 $ [x_{0}, x_{1}, x_{2}, x_{3}, x_{4}, x_{5}, x_{6}, x_{7}] $
 $ [x_{0}, x_{2}, x_{4}, x_{6}][x_{1}, x_{3}, x_{5}, x_{7}] $
 $ [x_{0}, x_{4}][x_{2}, x_{6}][x_{1}, x_{5}][x_{3}, x_{7}] $
 
 $ [x_{0}][x_{4}][x_{2}][x_{6}][x_{1}][x_{5}][x_{3}][x_{7}] $
 
+_lvl1:_
 $ [x_{0} + e_{0}.x_{4}][x_{2} + e_{0}.x_{6}][x_{1} + e_{0}.x_{5}][x_{3} + e_{0}.x_{7}] = [A, B, C, D]_{F=0} $
-
 $ [x_{0} + e_{1}.x_{4}][x_{2} + e_{1}.x_{6}][x_{1} + e_{1}.x_{5}][x_{3} + e_{1}.x_{7}] = [A, B, C, D]_{F=1} $
 
+_lvl2:_
 $ [A_{0} + e_{0}.B_{0}][C_{0} + e_{0}.D_{0}] = [E, F]_{F=0} $
 $ [A_{1} + e_{1}.B_{1}][C_{1} + e_{1}.D_{1}] = [E, F]_{F=1} $
 $ [A_{0} + e_{2}.B_{0}][C_{0} + e_{2}.D_{0}] = [E, F]_{F=2} $
 $ [A_{1} + e_{3}.B_{1}][C_{1} + e_{3}.D_{1}] = [E, F]_{F=3} $
 
+_lvl3:_
 $ [E_{0} + e_{0}.F_{0}] = G_{F=0} $
 $ [E_{1} + e_{1}.F_{1}] = G_{F=1} $
 $ [E_{2} + e_{2}.F_{2}] = G_{F=2} $
@@ -305,112 +299,32 @@ $ [E_{3} + e_{7}.F_{3}] = G_{F=7} $
 
 
 ##### levels
-Lets take an example with N=2
-&nbsp;&nbsp;lvl0: nodes(2), fq(1)
-&nbsp;&nbsp;lvl1: nodes(1), fq(2)
+N=2
+lvl0: nodes(2), fq(1)
+lvl1: nodes(1), fq(2)
 
-And now lets take an example with N=4
-&nbsp;&nbsp;lvl0: nodes(4), fq(1)
-&nbsp;&nbsp;lvl1: nodes(2), fq(2)
-&nbsp;&nbsp;lvl2: nodes(1), fq(4)
+N=4
+lvl0: nodes(4), fq(1)
+lvl1: nodes(2), fq(2)
+lvl2: nodes(1), fq(4)
 
-And with N=8
-&nbsp;&nbsp;lvl0: nodes(8), fq(1)
-&nbsp;&nbsp;lvl1: nodes(4), fq(2)
-&nbsp;&nbsp;lvl2: nodes(2), fq(4)
-&nbsp;&nbsp;lvl3: nodes(1), fq(8)
+N=8
+lvl0: nodes(8), fq(1)
+lvl1: nodes(4), fq(2)
+lvl2: nodes(2), fq(4)
+lvl3: nodes(1), fq(8)
 
-And with N=16
-&nbsp;&nbsp;lvl0: nodes(16), fq(1)
-&nbsp;&nbsp;lvl1: nodes(8), fq(2)
-&nbsp;&nbsp;lvl2: nodes(4), fq(4)
-&nbsp;&nbsp;lvl3: nodes(2), fq(8)
-&nbsp;&nbsp;lvl4: nodes(1), fq(16)
+N=16
+lvl0: nodes(16), fq(1)
+lvl1: nodes(8), fq(2)
+lvl2: nodes(4), fq(4)
+lvl3: nodes(2), fq(8)
+lvl4: nodes(1), fq(16)
 
-As we can see, it is exponential
-N=2, lvls = 1 + 1
-N=4, lvls = 2 + 1
-N=8, lvls = 3 + 1
-N=16 lvls = 4 + 1
+$ m = log_{2}(N) $
 $ lvls = log_{2}(N) + 1 $
-
-##### Container
-we will store the levels on ___ls___
-$ ls = [N.lvls] $
-with N equals to 8 ls = [32]
-
-> fun ft(img)
-&nbsp;&nbsp;N = len(img)
-&nbsp;&nbsp;lvls = $ log_{2}(N) + 1 $
-&nbsp;&nbsp;fqLens = [2^n for n in range(0,N)]
-&nbsp;&nbsp;nodes  = inverse(fqLens)
-&nbsp;&nbsp;ls = [N * lvls]
-&nbsp;&nbsp;
-&nbsp;&nbsp;for nd in (0, nodes[0]):
-&nbsp;&nbsp;&nbsp;index = 4 * (nd % 2) + 2 * (nd // 2 % 2) + (nd // 4)
-&nbsp;&nbsp;&nbsp;ls[0, 0, nd] = img[nd]
-&nbsp;&nbsp;
-&nbsp;&nbsp;for lvl in (1, lvls):
-&nbsp;&nbsp;&nbsp;node = nodes[lvl]
-&nbsp;&nbsp;&nbsp;fqLen = fqLens[lvl]
-&nbsp;&nbsp;&nbsp;for fq in (0, fqLen):
-&nbsp;&nbsp;&nbsp;&nbsp;for nd in (0, nodes):
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$ ls[lvl, fq, nd] = ls[lvl - 1,fq \% fqLens[lvl-1], 2.nd] + ls[lvl - 1, fq \% fqLens[lvl-1], 2.nd+1].e^{\frac{-2i\pi.fq}{fqLen}} $
-
-
-lvls = 3  (0, 1, 2, 3)  // _lvl0 is the img_
-nodes   = (8, 4, 2, 1)
-fqLens  = (1, 2, 4, 8)  // _Frequencies_
-
-(lvl, fq, nd)
-lvl0 Size = 8
-lvl1 Size = 8
-lvl2 Size = 8
-lvl3 Size = 8
-fq0  Size = 1
-fq1  Size = 2
-fq2  Size = 4
-fq3  Size = 8
-(lvl * 8 + fq * nodes[lvl] + nd)
-
-     0: lvl0,f0,0
-     1: lvl0,f0,1
-     2: lvl0,f0,2
-     3: lvl0,f0,3
-     4: lvl0,f0,4
-     5: lvl0,f0,5
-     6: lvl0,f0,6
-     7: lvl0,f0,7
-
-     8: lvl1,f0,0
-     9: lvl1,f0,1
-    10: lvl1,f0,2
-    11: lvl1,f0,3
-    12: lvl1,f1,0
-    13: lvl1,f1,1
-    14: lvl1,f1,2
-    15: lvl1,f1,3
-
-    16: lvl2,f0,0
-    17: lvl2,f0,1
-    18: lvl2,f1,0
-    19: lvl2,f1,1
-    20: lvl2,f2,0
-    21: lvl2,f2,1
-    22: lvl2,f3,0
-    23: lvl2,f3,1
-
-    24: lvl3,f0,0
-    25: lvl3,f1,0
-    26: lvl3,f2,0
-    27: lvl3,f3,0
-    28: lvl3,f4,0
-    29: lvl3,f5,0
-    30: lvl3,f6,0
-    31: lvl3,f7,0
-
-lvl * 8 + f*fqLen[lvl] nd
-
+$ nodes = 2^{m}, ..., 2^{1}, 2^{0} $
+$ fqLens = 2^{0}, 2^{1},..., 2^{m} $
 
 
 ---
@@ -418,17 +332,23 @@ lvl * 8 + f*fqLen[lvl] nd
 __lvl0__
 $ [0][1][2][3][4][5][6][7] $
 
+_Order:_
 $ [0][4][2][6][1][5][3][7] $
 
 __lvl1__
-frequencies | real | imag
-------------|------|-------
-0           | 1    | 0
-1           | -1   | 0
-$ [0 + 4.e(1)][2 + 6.e(1)][1 + 5.e(1)][3 + 7.e(1)] = (A, B, C, D)_{F=0}$
-$ [0 +4.e(-1)][2 +6.e(-1)][1 +5.e(-1)][3 +7.e(-1)] = (A, B, C, D)_{F=1}$
+freq | real | imag
+-----|------|-------
+0    | 1    | 0
+1    | -1   | 0
 
-$ [ 4][ 8][ 6][10] = (A, B, C, D)_{F=0}$
+$ F_{0} = (1, 0i) $
+$ F_{1} = (-1, 0i) $
+
+
+$ [0 + 4.e(+1)][2 + 6.e(+1)][1 + 5.e(+1)][3 + 7.e(+1)] = (A, B, C, D)_{F=0}$
+$ [0 + 4.e(-1)][2 + 6.e(-1)][1 + 5.e(-1)][3 + 7.e(-1)] = (A, B, C, D)_{F=1}$
+
+$ [+4][+8][+6][10] = (A, B, C, D)_{F=0} $
 $ [-4][-4][-4][-4] = (A, B, C, D)_{F=1} $
 
 __lvl2__
@@ -438,12 +358,19 @@ frequencies | real | imag
 1           | 0    | -1
 2           | -1   | 0
 3           | 0    | 1
+
+$ F_{0} = (1, 0i) $
+$ F_{1} = (0, -i) $
+$ F_{2} = (-1, 0i) $
+$ F_{3} = (0, i) $
+
 $ [A + Be][C + D.e] = (E, F)_{F=0}$
 
-$ [ 4 + 8.e(1) ][6 + 10.e(1) ] = (E, F)_{F=0}$
-$ [-4 - 4.e(-i)][-4 - 4.e(-i)] = (E, F)_{F=1}$
-$ [ 4 + 8.e(-1)][6 + 10.e(-1)] = (E, F)_{F=2}$
-$ [-4 - 4.e(i) ][-4 - 4.e(i) ] = (E, F)_{F=3}$
+
+$ [+4 + 8.e(+1)] [+6 + 10.e(+1)] = (E, F)_{F=0}$
+$ [-4 - 4.e(-i)] [-4 - 4.e(-i) ] = (E, F)_{F=1}$
+$ [+4 + 8.e(-1)] [+6 + 10.e(-1)] = (E, F)_{F=2}$
+$ [-4 - 4.e(+i)] [-4 - 4.e(+i) ] = (E, F)_{F=3}$
 
 $ [12          ][16          ] = (E, F)_{F=0}$
 $ [-4 + 4i     ][-4 + 4i     ] = (E, F)_{F=1}$
@@ -462,6 +389,15 @@ frequencies | real | imag
 5           | -0.7 | 0.7
 6           | 0    | 1
 7           | 0.7  | 0.7
+
+$ F_{0} = (1   , 0i   ) $
+$ F_{1} = (0.7 , -0.7i) $
+$ F_{2} = (0   , -1i  ) $
+$ F_{3} = (-0.7, -0.7i) $
+$ F_{4} = (-1  , 0i   ) $
+$ F_{5} = (-0.7,  0.7i) $
+$ F_{6} = (0   , i    ) $
+$ F_{7} = (0.7 ,  0.7i) $
 
 $ [E + F.e] = G_{F=0}$
 
@@ -499,15 +435,135 @@ $ [-4 - 4i + e(0.7 +0.7i)(-4 -4i)] = G_{F=7}$
 $ [-4 - 4i - 5.6i] = G_{F=7}$
 $ [-4 - 9.6i] = G_{F=7}$
 
+
+
 __Order:__
-$ [x_{0}, x_{1}, x_{2}, x_{3}, x_{4}, x_{5}, x_{6}, x_{7}] $
 
-$ [x_{0}, x_{2}, x_{4}, x_{6}][x_{1}, x_{3}, x_{5}, x_{7}] $
+N = 16
 
-$ [x_{0}, x_{4}][x_{2}, x_{6}][x_{1}, x_{5}][x_{3}, x_{7}] $
+$ [x_{0}, x_{1}, x_{2}, x_{3}, x_{4}, x_{5}, x_{6}, x_{7}, x_{8}, x_{9}, x_{10}, x_{11}, x_{12}, x_{13}, x_{14}, x_{15}] $
+
+$ [x_{0}, x_{2}, x_{4}, x_{6}, x_{8}, x_{10}, x_{12}, x_{14}][x_{1}, x_{3}, x_{5}, x_{7}, x_{9}, x_{11}, x_{13}, x_{15}] $
+
+$ [x_{0}, x_{4}, x_{8}, x_{12}][x_{2}, x_{6}, x_{10}, x_{14}][x_{1}, x_{5}, x_{9}, x_{13}][x_{3}, x_{7}, x_{11}, x_{15}] $
+
+$ [x_{0}, x_{8}][x_{4}, x_{12}][x_{2}, x_{10}][x_{6}, x_{14}][x_{1}, x_{9}][x_{5}, x_{13}][x_{3}, x_{11}][x_{7}, x_{15}] $
+
+![points](/fftOrder.png)
+
+![points2](/fftOrder2.png)
+
+__pattern:__
+$ 1.\frac{x}{8} + 2.\frac{x \% 8}{4} + 4.\frac{x \% 4}{2} + 8.(x \% 2) $
+
+$ n = 16 $
+$ m = log_{2}(n) = 4 $
+$ f(x) = 1.\frac{x}{8} + 2.\frac{x \% 8}{4} + 4.\frac{x \% 4}{2} 8.\frac{(x \% 2)}{1} + ... + 2^{m}.\frac{x \% 2^{4-m}}{2^{4-(m+1)}}$
+
+$f(x) = \sum_{i = 0}^{m} 2^{m}.\frac{x \% 2^{4-m}}{2^{4-(m+1)}} $
+
+The division is an integer division
+
+$f(x) = \sum_{i = 0}^{m} 2^{m}.floor(\frac{x \% 2^{4-m}}{2^{4-(m+1)}}) $
 
 
-$ 4.(x \% 2) + 2(\frac{x}{2} \% 2) + \frac{x}{4}$
+     0: lvl0,f0,0 = 0
+     1: lvl0,f0,1 = 4
+     2: lvl0,f0,2 = 2
+     3: lvl0,f0,3 = 6
+     4: lvl0,f0,4 = 1
+     5: lvl0,f0,5 = 5
+     6: lvl0,f0,6 = 3
+     7: lvl0,f0,7 = 7
+
+     8: lvl1,f0,0 = 4
+     9: lvl1,f0,1 = 8
+    10: lvl1,f0,2 = 6
+    11: lvl1,f0,3 = 10
+    12: lvl1,f1,0 = -4
+    13: lvl1,f1,1 = -4
+    14: lvl1,f1,2 = -4
+    15: lvl1,f1,3 = -4
+
+    16: lvl2,f0,0 = 12
+    17: lvl2,f0,1 = 16
+    18: lvl2,f1,0 = -4 + 4i
+    19: lvl2,f1,1 = -4 + 4i
+    20: lvl2,f2,0 = -4
+    21: lvl2,f2,1 = -4
+    22: lvl2,f3,0 = -4 - 4i
+    23: lvl2,f3,1 = -4 - 4i
+
+    24: lvl3,f0,0 = 28
+    25: lvl3,f1,0 = -4 + 9.6i
+    26: lvl3,f2,0 = -4 + 4i
+    27: lvl3,f3,0 = -4 + 1.6i
+    28: lvl3,f4,0 = -4
+    29: lvl3,f5,0 = -4 - 1.6i
+    30: lvl3,f6,0 = -4 - 4i
+    31: lvl3,f7,0 = -4 - 9.6i
+
+$ nodes = 2^{m}, ..., 2^{1}, 2^{0} $
+$ nodes = [8, 4, 2, 1] $
+
+index(lvl, fq, node):
+    return lvl * 8 + fq * nodes[lvl] + node
+
+##### Container
+$ ls = [N.lvls] $
+
+ls = [8.4][32]
+
+
+      idx(lvl, fq, node):
+        return lvl * 8 + fq * nodes[lvl] + node
+
+      ft(img):
+      n = len(img)    = 8
+      m = log(n, 2)   = 3
+      nodes = [m + 1] = [2^i for i in [m, 0] ] = [8, 4, 2, 1]
+      fqLens = [m + 1] = [2^i for i in [0, m] ] = [1, 2, 4, 8]
+
+      ls = [32] type=complex
+      for x in [0, nodes[0]):
+        index = 0
+        for i in range(m):
+          index += 2^i .((nd % 2^(m-i)) // 2^(m-(i+1)))
+        ls[idx(0, 0, nd)] = img[int(index)]
+
+
+> fun ft(img)
+&nbsp;&nbsp;N = len(img)
+&nbsp;&nbsp;lvls = $ log_{2}(N) + 1 $
+&nbsp;&nbsp;fqLens = [2^n for n in range(0,N)]
+&nbsp;&nbsp;nodes  = inverse(fqLens)
+&nbsp;&nbsp;ls = [N * lvls]
+&nbsp;&nbsp;
+&nbsp;&nbsp;for nd in (0, nodes[0]):
+&nbsp;&nbsp;&nbsp;index = 4 * (nd % 2) + 2 * (nd // 2 % 2) + (nd // 4)
+&nbsp;&nbsp;&nbsp;ls[0, 0, nd] = img[nd]
+&nbsp;&nbsp;
+&nbsp;&nbsp;for lvl in (1, lvls):
+&nbsp;&nbsp;&nbsp;node = nodes[lvl]
+&nbsp;&nbsp;&nbsp;fqLen = fqLens[lvl]
+&nbsp;&nbsp;&nbsp;for fq in (0, fqLen):
+&nbsp;&nbsp;&nbsp;&nbsp;for nd in (0, nodes):
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$ ls[lvl, fq, nd] = ls[lvl - 1,fq \% fqLens[lvl-1], 2.nd] + ls[lvl - 1, fq \% fqLens[lvl-1], 2.nd+1].e^{\frac{-2i\pi.fq}{fqLen}} $
+
+
+(lvl, fq, nd)
+lvl0 Size = 8
+lvl1 Size = 8
+lvl2 Size = 8
+lvl3 Size = 8
+fq0  Size = 1
+fq1  Size = 2
+fq2  Size = 4
+fq3  Size = 8
+(lvl * 8 + fq * nodes[lvl] + nd)
+
+
+lvl * 8 + f*fqLen[lvl] nd
 
 
 

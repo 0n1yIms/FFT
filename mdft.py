@@ -131,30 +131,35 @@ def idx(lvl, fq, nd):
   return int(lvl * 8 + int(fq) * nodes[lvl] + int(nd))
 
 def ft(img):
+  n = len(img)
+  m = int(math.log(n, 2))
   nodes = [8, 4, 2, 1]
   fqLens = [1, 2, 4, 8]
 
   ls = np.zeros(32, dtype=complex)
   for nd in range(0, int(nodes[0])):
-    index = 4 * (nd % 2) + 2 * (nd // 2 % 2) + (nd // 4)
+    index = 0
+    for i in range(m):
+      index += 2**i * ((x % 2**(m-i)) // 2**(m-(i+1)))
     ls[idx(0, 0, nd)] = img[int(index)]
+    
   for lvl in range(1, lvls):
     node = nodes[lvl]
     fqLen = fqLens[lvl]
     for fq in range(0, fqLen):
       for nd in range(0, node):
-        cidx = idx(lvl, fq, nd)
-        lidx = idx(lvl - 1,fq % fqLens[lvl - 1], 2 * nd), \
-          idx(lvl - 1, fq % fqLens[lvl - 1], 2 * nd + 1)
-        nn = ls[lidx[0]]
-        nn2 = ls[lidx[1]]
-        ne = e**(-2j*pi*fq/fqLen)
+        # cidx = idx(lvl, fq, nd)
+        # lidx = idx(lvl - 1,fq % fqLens[lvl - 1], 2 * nd), \
+          # idx(lvl - 1, fq % fqLens[lvl - 1], 2 * nd + 1)
+        # nn = ls[lidx[0]]
+        # nn2 = ls[lidx[1]]
+        # ne = e**(-2j*pi*fq/fqLen)
         num = \
           ls[idx(lvl - 1,fq % fqLens[lvl - 1], 2 * nd)] + \
           ls[idx(lvl - 1, fq % fqLens[lvl - 1], 2 * nd + 1)] \
             * e**(-2j*pi*fq/fqLen)
         ls[idx(lvl, fq, nd)] = num
-    rls = [cRound(x) for x in ls[idx(lvl, 0, 0):idx(lvl, 0, 0) + 8]]
+    # rls = [cRound(x) for x in ls[idx(lvl, 0, 0):idx(lvl, 0, 0) + 8]]
   
     # print("lvl", lvl, rls)
     # print("lvl", lvl, ls[idx(lvl - 1, 0, 0):idx(lvl - 1, 0, 0) + 8])
