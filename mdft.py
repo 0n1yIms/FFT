@@ -168,18 +168,22 @@ def ft(img):
   return ls
 
 nodesFft = []
+nFft = 0
 def idxFt(lvl, fq, node):
-  return lvl * 8 + fq * nodesFft[lvl] + node
+  return lvl * nFft + fq * nodesFft[lvl] + node
 
 def fftAlg(img):
   n = len(img)  # 8
   m = int(log(n, 2)) # 3
+  lvls = m + 1
   nodes = [2**i for i in range(m, -1, -1) ] # [8, 4, 2, 1]
   fqLens = [2**i for i in range(0, m + 1)] # [1, 2, 4, 8]
   global nodesFft
   nodesFft = nodes
+  global nFft
+  nFft = n
 
-  ls = np.zeros(n * (m + 1), dtype=complex)
+  ls = np.zeros(n * lvls, dtype=complex)
   for x in range(0, nodes[0]):
     index = 0
     for i in range(m):
@@ -196,7 +200,8 @@ def fftAlg(img):
           ls[idxFt(lvl - 1, fq % fqLens[lvl - 1], 2 * nd + 1)] \
           * e**(-2j*pi*fq/fqLen)
   
-  return ls[24:32]
+  return ls[n*m:n*(m+1)]
+  # return ls[24:32]
     
     
 def ifftAlg(img):  
@@ -205,10 +210,13 @@ def ifftAlg(img):
 
   n = len(img)  # 8
   m = int(log(n, 2)) # 3
+  lvls = m + 1
   nodes = [2**i for i in range(m, -1, -1) ] # [8, 4, 2, 1]
   fqLens = [2**i for i in range(0, m + 1)] # [1, 2, 4, 8]
   global nodesFft
   nodesFft = nodes
+  global nFft
+  nFft = n
 
   ls = np.zeros(n * (m + 1), dtype=complex)
   for x in range(0, nodes[0]):
@@ -227,48 +235,9 @@ def ifftAlg(img):
           ls[idxFt(lvl - 1, fq % fqLens[lvl - 1], 2 * nd + 1)] \
           * e**(-2j*pi*fq/fqLen)
   
-  ls = ls[24:32]
+  ls = ls[n*m:n*(m+1)]
   ls = [x / n for x in ls]
   return ls
-
-
-
-
-
-# def fftAlg(img):
-#       n = len(img)  # 8
-#       m = int(log(n, 2)) # 3
-#       nodes = [2**i for i in range(m, -1, -1) ] # [8, 4, 2, 1]
-#       fqLens = [2**i for i in range(0, m + 1)] # [1, 2, 4, 8]
-#       nodesFft = nodes
-
-#       ls = np.zeros(n * (m + 1), dtype=complex)
-#       for x in range(0, nodes[0]):
-#         index = 0
-#         for i in range(m):
-#           index += 2**i * ((x % 2**(m-i)) // 2**(m-(i+1)))
-#         ls[idx(0, 0, x)] = img[int(index)]
-      
-#       for lvl in range(1, lvls):
-#         node = nodes[lvl]
-#         fqLen = fqLens[lvl]
-#         for fq in range(0, fqLen):
-#           for nd in range(0, node):
-#             rsum = \
-#               ls[idx(lvl - 1,fq % fqLens[lvl - 1], 2 * nd)].real + \
-#               ls[idx(lvl - 1, fq % fqLens[lvl - 1], 2 * nd + 1)].real \
-#               * cos(2*pi*fq/fqLen)
-#             isum = \
-#               ls[idx(lvl - 1,fq % fqLens[lvl - 1], 2 * nd)].imag + \
-#               ls[idx(lvl - 1, fq % fqLens[lvl - 1], 2 * nd + 1)].imag \
-#               * sin(2*pi*fq/fqLen)
-            
-#             # ls[idx(lvl, fq, nd)] = \
-#               # ls[idx(lvl - 1,fq % fqLens[lvl - 1], 2 * nd)] + \
-#               # ls[idx(lvl - 1, fq % fqLens[lvl - 1], 2 * nd + 1)] \
-#               # * e**(-2j*pi*fq/fqLen)
-  
-#       return ls[24:32]
     
 
 
@@ -304,23 +273,20 @@ def invF8C(frequencies, size):
 def conj(x):
   return x.real - x.imag*1j
 
-ls = [0, 1, 2, 3, 4, 5, 6, 7]
-fftLs = fftAlg(ls)
-# ifftLs = np.fft.ifft(fftLs)
-# ifftLs = np.fft.fft(fftLs)
+ls = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
 
-# fftLs = [conj(x) for x in fftLs]
-# ifftLs = fftAlg(fftLs)
-# ifftLs = [x / 8 for x in ifftLs]
+fftLs = fftAlg(ls)
 ifftLs = ifftAlg(fftLs)
 
 # ifftLs = invF8C(fftLs, 8)
 
+fftLs = [cRound(x) for x in fftLs]
 ifftLs = [cRound(x) for x in ifftLs]
 
-
-
 print(fftLs)
+print(ifftLs)
+
+
 
 # nft = four(ls, 8)
 # nft = FFT(ls)
@@ -333,22 +299,22 @@ print(fftLs)
 # print("nft: ", nft)
 # print("ift: ", ift)
 
-nft = four(ls, 8)
-nift = invF8(nft, 8)
+# nft = four(ls, 8)
+# nift = invF8(nft, 8)
 
-nft = [round(x, 2) for x in nft[0]], [round(x, 2) for x in nft[1]]
-nift = [round(x, 2) for x in nift]
+# nft = [round(x, 2) for x in nft[0]], [round(x, 2) for x in nft[1]]
+# nift = [round(x, 2) for x in nift]
 
-print("fft", nft)
-print("ift", nift)
+# print("fft", nft)
+# print("ift", nift)
 
-fastft = ft(ls)
-fastift = invF8C(fastft[24:32], 8)
+# fastft = ft(ls)
+# fastift = invF8C(fastft[24:32], 8)
 
-fastft = [cRound(x) for x in fastft]
-fastift = [cRound(x) for x in fastift]
-print("fft", fastft[24:32])
-print("ifft: ", fastift)
+# fastft = [cRound(x) for x in fastft]
+# fastift = [cRound(x) for x in fastift]
+# print("fft", fastft[24:32])
+# print("ifft: ", fastift)
 
 
 # print("fft", fls[24:32])
