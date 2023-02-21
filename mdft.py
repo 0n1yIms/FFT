@@ -167,33 +167,109 @@ def ft(img):
     # print("lvl", lvl, ls[idx(lvl - 1, 0, 0):idx(lvl - 1, 0, 0) + 8])
   return ls
 
+nodesFft = []
 def idxFt(lvl, fq, node):
-  return lvl * 8 + fq * nodes[lvl] + node
+  return lvl * 8 + fq * nodesFft[lvl] + node
 
 def fftAlg(img):
-      n = len(img)  # 8
-      m = int(log(n, 2)) # 3
-      nodes = [2**i for i in range(m, -1, -1) ] # [8, 4, 2, 1]
-      fqLens = [2**i for i in range(0, m + 1)] # [1, 2, 4, 8]
+  n = len(img)  # 8
+  m = int(log(n, 2)) # 3
+  nodes = [2**i for i in range(m, -1, -1) ] # [8, 4, 2, 1]
+  fqLens = [2**i for i in range(0, m + 1)] # [1, 2, 4, 8]
+  global nodesFft
+  nodesFft = nodes
 
-      ls = np.zeros(n * (m + 1), dtype=complex)
-      for x in range(0, nodes[0]):
-        index = 0
-        for i in range(m):
-          index += 2**i * ((x % 2**(m-i)) // 2**(m-(i+1)))
-        ls[idx(0, 0, x)] = img[int(index)]
+  ls = np.zeros(n * (m + 1), dtype=complex)
+  for x in range(0, nodes[0]):
+    index = 0
+    for i in range(m):
+      index += 2**i * ((x % 2**(m-i)) // 2**(m-(i+1)))
+    ls[idxFt(0, 0, x)] = img[int(index)]
       
-      for lvl in range(1, lvls):
-        node = nodes[lvl]
-        fqLen = fqLens[lvl]
-        for fq in range(0, fqLen):
-          for nd in range(0, node):
-            ls[idx(lvl, fq, nd)] = \
-              ls[idx(lvl - 1,fq % fqLens[lvl - 1], 2 * nd)] + \
-              ls[idx(lvl - 1, fq % fqLens[lvl - 1], 2 * nd + 1)] \
-              * e**(-2j*pi*fq/fqLen)
+  for lvl in range(1, lvls):
+    node = nodes[lvl]
+    fqLen = fqLens[lvl]
+    for fq in range(0, fqLen):
+      for nd in range(0, node):
+        ls[idxFt(lvl, fq, nd)] = \
+          ls[idxFt(lvl - 1,fq % fqLens[lvl - 1], 2 * nd)] + \
+          ls[idxFt(lvl - 1, fq % fqLens[lvl - 1], 2 * nd + 1)] \
+          * e**(-2j*pi*fq/fqLen)
   
-      return ls[24:32]
+  return ls[24:32]
+    
+    
+def ifftAlg(img):  
+  img = [x.real - x.imag*1j for x in img]
+
+
+  n = len(img)  # 8
+  m = int(log(n, 2)) # 3
+  nodes = [2**i for i in range(m, -1, -1) ] # [8, 4, 2, 1]
+  fqLens = [2**i for i in range(0, m + 1)] # [1, 2, 4, 8]
+  global nodesFft
+  nodesFft = nodes
+
+  ls = np.zeros(n * (m + 1), dtype=complex)
+  for x in range(0, nodes[0]):
+    index = 0
+    for i in range(m):
+      index += 2**i * ((x % 2**(m-i)) // 2**(m-(i+1)))
+    ls[idxFt(0, 0, x)] = img[int(index)]
+      
+  for lvl in range(1, lvls):
+    node = nodes[lvl]
+    fqLen = fqLens[lvl]
+    for fq in range(0, fqLen):
+      for nd in range(0, node):
+        ls[idxFt(lvl, fq, nd)] = \
+          ls[idxFt(lvl - 1,fq % fqLens[lvl - 1], 2 * nd)] + \
+          ls[idxFt(lvl - 1, fq % fqLens[lvl - 1], 2 * nd + 1)] \
+          * e**(-2j*pi*fq/fqLen)
+  
+  ls = ls[24:32]
+  ls = [x / n for x in ls]
+  return ls
+
+
+
+
+
+# def fftAlg(img):
+#       n = len(img)  # 8
+#       m = int(log(n, 2)) # 3
+#       nodes = [2**i for i in range(m, -1, -1) ] # [8, 4, 2, 1]
+#       fqLens = [2**i for i in range(0, m + 1)] # [1, 2, 4, 8]
+#       nodesFft = nodes
+
+#       ls = np.zeros(n * (m + 1), dtype=complex)
+#       for x in range(0, nodes[0]):
+#         index = 0
+#         for i in range(m):
+#           index += 2**i * ((x % 2**(m-i)) // 2**(m-(i+1)))
+#         ls[idx(0, 0, x)] = img[int(index)]
+      
+#       for lvl in range(1, lvls):
+#         node = nodes[lvl]
+#         fqLen = fqLens[lvl]
+#         for fq in range(0, fqLen):
+#           for nd in range(0, node):
+#             rsum = \
+#               ls[idx(lvl - 1,fq % fqLens[lvl - 1], 2 * nd)].real + \
+#               ls[idx(lvl - 1, fq % fqLens[lvl - 1], 2 * nd + 1)].real \
+#               * cos(2*pi*fq/fqLen)
+#             isum = \
+#               ls[idx(lvl - 1,fq % fqLens[lvl - 1], 2 * nd)].imag + \
+#               ls[idx(lvl - 1, fq % fqLens[lvl - 1], 2 * nd + 1)].imag \
+#               * sin(2*pi*fq/fqLen)
+            
+#             # ls[idx(lvl, fq, nd)] = \
+#               # ls[idx(lvl - 1,fq % fqLens[lvl - 1], 2 * nd)] + \
+#               # ls[idx(lvl - 1, fq % fqLens[lvl - 1], 2 * nd + 1)] \
+#               # * e**(-2j*pi*fq/fqLen)
+  
+#       return ls[24:32]
+    
 
 
 def invF8(frequencies, size):
@@ -212,29 +288,37 @@ def invF8C(frequencies, size):
   k = np.linspace(0, size - 1, size)
   fun = []
   for n in k:
-    # ni = frequencies[:] * e**(-2j * pi * k * n / size)
-    # fun.append(np.sum(ni) / float(size))
+    ni = frequencies[:] * e**(2j * pi * k * n / size)
+    fun.append(np.sum(ni) / float(size))
     
-    fr = frequencies[:].real * np.cos(2. * np.pi * k * n / size)
-    fi = frequencies[:].imag * np.sin(2. * np.pi * k * n / size)
+    # fr = frequencies[:].real * np.cos(2. * np.pi * k * n / size)
+    # fi = frequencies[:].imag * np.sin(2. * np.pi * k * n / size)
+    # fun.append(np.sum(fr - fi) / float(size))
+    
     # fr = frequencies[0] * np.cos(2. * np.pi * k * n / size)
     # fi = frequencies[1] * np.sin(2. * np.pi * k * n / size)
-    fun.append(np.sum(fr - fi))
-    # fun.append(np.sum(fr - fi) / float(size))
+    # fun.append(np.sum(fr - fi))
     # fun = [cRound(x) for x in fun]
   return fun
    
+def conj(x):
+  return x.real - x.imag*1j
 
 ls = [0, 1, 2, 3, 4, 5, 6, 7]
 fftLs = fftAlg(ls)
-ifftLs = np.fft.ifft(fftLs)
+# ifftLs = np.fft.ifft(fftLs)
+# ifftLs = np.fft.fft(fftLs)
 
+# fftLs = [conj(x) for x in fftLs]
 # ifftLs = fftAlg(fftLs)
+# ifftLs = [x / 8 for x in ifftLs]
+ifftLs = ifftAlg(fftLs)
+
 # ifftLs = invF8C(fftLs, 8)
 
 ifftLs = [cRound(x) for x in ifftLs]
 
-ifftLs = [x / 8 for x in ifftLs]
+
 
 print(fftLs)
 
