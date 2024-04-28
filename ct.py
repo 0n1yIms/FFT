@@ -36,7 +36,7 @@ def ft(fun, x, freq):
   return rLs, iLs
 
 
-
+# create a function that is cos(x * pi * 2)
 size = 10
 x = np.linspace(0,size, size * 50)
 fun = cos(x * pi * 2)

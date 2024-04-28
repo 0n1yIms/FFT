@@ -1,3 +1,6 @@
+# muestra de enrollado de frecuencia
+
+
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
@@ -22,23 +25,22 @@ def integral(fun, x):
   iSum = sum(fi) / nImag
   return rSum, iSum
 
-def ft(fun, x, freq):
+def ft(fun):
+  size = len(fun)
   rLs = []
   iLs = []
-  vecmod = []
-  for i in freq:
-    f = fun * e**(-pi * x * 1j * i)
-    freal = f.real
-    fimag = f.imag
-    nReal = len(freal)
-    nImag = len(fimag)
-    rSum = sum(freal) / nReal
-    iSum = sum(fimag) / nImag
-    rLs.append(rSum)
-    iLs.append(iSum)
-    # vecmod.append(np.sqrt(rSum**2 + iSum**2))
-  # vecmod = np.sqrt(rLs * rLs + iLs * iLs)
-  # return vecmod
+  for k in range(0, size):
+    rsum = 0
+    isum = 0
+    for i in range(0, size):
+      f = fun[i] * e**(-2 * pi * i * k * 1j / size)
+      rsum += np.real(f)
+      isum += np.imag(f)
+
+    rsum /= size
+    isum /= size
+    rLs.append(rsum)
+    iLs.append(isum)
   return rLs, iLs
 
 def ift(fun, x):
@@ -55,60 +57,52 @@ def ift(fun, x):
   return f
 
 
-
-size = 10
-x = np.linspace(0,size, 50 * size)
-# x = np.linspace(0,size)
+# linspace(from, to, number of points)
+size = 500
+x = np.linspace(0, 10, size)
+# create a function that is cos(2.pi.x)
 fun = sin(x * pi * 2)
-# fun = cos(x * pi * 2)
 
-freq = np.linspace(0, size, 50 * size)
-# ftransform = ft(fun, x, freq)
-# invft = ift(ftransform, x)
-# freq = 0
-ftransform = updateFun(fun, x, freq)
-# integralF = integral(ftransform, x)
-
+ftransform = ft(fun)
 
 # fig, ax = plt.subplots()
 # ax.subplots_adjust(left=0.25, bottom=0.25)
-plt.figure(1)
-plt.plot(x, ftransform, 'red')
+# plt.figure(1)
+# plt.plot(x, ftransform, 'red')
 # plt.plot(x, ftransform[0], 'red')
 # plt.plot(x, ftransform[1], 'gray')
 
-scale = 4
-plt.xlim(0, scale)
-plt.ylim(-scale, scale)
-
-plt.figure(2) 
-# plt.plot(x, invft, 'gray')
-plt.plot(x, fun, 'cyan')
-plt.xlim(0, scale)
-plt.ylim(-scale, scale)
-
+scale = 2
 
 # plt.figure(2)
-# axfreq = plt.axes([0.2, 0.1, 0.5, 0.03])
-# freqq = Slider(axfreq, 'Frequency', 0.0, size / 2, 0)
+fig, ax = plt.subplots()
+plt.subplots_adjust(bottom=0.25)
 
+ax_slider = plt.axes([0.25, 0.1, 0.65, 0.03], facecolor='lightgoldenrodyellow')
 
+slider = Slider(ax_slider, 'Valor', 0, 10, valinit=0)  # Los parámetros son (eje, etiqueta, valor mínimo, valor máximo, valor inicial)
+
+# Función que se ejecutará cuando se cambie el valor del deslizador
 def update(val):
-  global x, fun, freq, ftransform, integralF
-  # freq += 0.01
-  freq = val
-  ftransform = updateFun(fun, x, freq)
-  integralF = integral(ftransform, x) 
-  plt.figure(1)
-  plt.cla()
-  plt.xlim(-scale, scale)
-  plt.ylim(-scale, scale)
-  plt.plot(ftransform[0], ftransform[1], 'gray')
-  plt.scatter([0, integralF[0]], [0, integralF[1]])
-  plt.draw()
+    global x, fun, fig, ax
+    new_value = slider.val
+    # plt.figure(2)
+    func = updateFun(fun, x, new_value)
+    ax.cla()
+    # plt.plot(x, fun, 'gray')
+    # plt.plot(x, func[0], 'red')
+    # plt.plot(x, func[1], 'gray')
+    ax.plot(func[0], func[1], 'gray')
+    ax.xlim(-2, 2)
+    ax.ylim(-2, 2)
+    ax.draw()
     
-# freqq.on_changed(update)
-# anim = animation.FuncAnimation(plt.gcf(), update, interval=50)
+    # plt.draw()
+    
+
+slider.on_changed(update)  # Conecta la función "update" al evento "on_changed" del deslizador
+
+
 
 plt.show()
 

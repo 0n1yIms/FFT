@@ -1,3 +1,6 @@
+# fft multidimensional, algoritmo de cooley tukey
+# algoritmo de N niveles
+
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation

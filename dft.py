@@ -8,18 +8,10 @@ import time
 pi = 3.1415
 e = 2.71828182845904523536028747135
 
+
 def updateFun(fun, x, freq):
   f = fun * e**(pi * x * 1j * freq)
   return np.real(f), np.imag(f)
-
-def integral(fun, x):
-  fr = fun[0]
-  fi = fun[1]
-  nReal = len(fr)
-  nImag = len(fi)
-  rSum = sum(fr) / nReal
-  iSum = sum(fi) / nImag
-  return rSum, iSum
 
 def ft(fun, x, freq):
   rLs = []
